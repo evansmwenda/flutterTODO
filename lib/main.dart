@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
+import 'package:fluttertodo/services/auth.dart';
 import "package:lint/lint.dart";
 // Import the firebase_core plugin
 import "package:firebase_core/firebase_core.dart";
@@ -53,7 +54,26 @@ class _RootState extends State<Root> {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(stream: //Auth stream,);
+    return StreamBuilder(
+      stream: Auth(auth: _auth).user,
+      builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+        if(snapshot.connectionState == "active"){
+          //do something
+          if(snapshot.data.uid == null){
+            //user not logged in->go to login screen
+            //15:43(video)
+          }else{
+            //user logged in->go to home screen
+          }
+          return Text("textfield");
+        }else{
+          return const Scaffold(
+            body: Center(
+              child: Text("Loading..."),
+            ),
+          );
+        }
+      },
+    );
   }
 }
-
