@@ -4,7 +4,6 @@ import "package:flutter/material.dart";
 import 'package:fluttertodo/screens/home.dart';
 import 'package:fluttertodo/screens/login.dart';
 import 'package:fluttertodo/services/auth.dart';
-import "package:lint/lint.dart";
 // Import the firebase_core plugin
 import "package:firebase_core/firebase_core.dart";
 
@@ -28,7 +27,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder(
       // Initialize FlutterFire:
-      future: _initialization,
+      future: Firebase.initializeApp(),//_initialization,
       builder: (context, snapshot) {
         // Check for errors
         if (snapshot.hasError) {
