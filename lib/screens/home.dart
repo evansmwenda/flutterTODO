@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertodo/services/auth.dart';
 
 class Home extends StatefulWidget {
   final FirebaseAuth auth ;
@@ -21,6 +22,18 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+      appBar: AppBar(
+        title: Text("fluttrT0D0"),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () async {
+              final String retVal =
+              await Auth(auth: widget.auth).signOut();
+            },
+            icon: Icon(Icons.exit_to_app),
+          )
+        ],
+      ),
       body:  Builder(
         builder: (context) => Center(
           child: RaisedButton(
