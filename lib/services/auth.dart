@@ -11,7 +11,7 @@ class Auth {
     try {
       await auth.createUserWithEmailAndPassword(
         email: email.trim(),
-        password: password,
+        password: password.trim(),
       );
       return "Success";
     } on FirebaseAuthException catch(e){
@@ -25,7 +25,7 @@ class Auth {
     try {
       await auth.signInWithEmailAndPassword(
         email: email.trim(),
-        password: password,
+        password: password.trim(),
       );
       return "Success";
     } on FirebaseAuthException catch(e){

@@ -1,13 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
+import 'package:fluttertodo/screens/home.dart';
+import 'package:fluttertodo/screens/login.dart';
 import 'package:fluttertodo/services/auth.dart';
 import "package:lint/lint.dart";
 // Import the firebase_core plugin
 import "package:firebase_core/firebase_core.dart";
 
 void main() {
-  runApp(App());
+  runApp(MaterialApp(
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+      ),
+      debugShowCheckedModeBanner: false, //uncomment this line in production
+      initialRoute: '/',
+      routes: {
+        '/': (context) => App(),
+      }));
 }
 
 class App extends StatelessWidget {
@@ -24,14 +34,14 @@ class App extends StatelessWidget {
         if (snapshot.hasError) {
           return const Scaffold(
             body: Center(
-              child: Text("Error"),
+              child: Text("snapshot"),
             ),
           );
         }
 
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
-          return MyAwesomeApp();
+          return Root();
         }
 
         return const Scaffold(
@@ -57,16 +67,19 @@ class _RootState extends State<Root> {
     return StreamBuilder(
       stream: Auth(auth: _auth).user,
       builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-        if(snapshot.connectionState == "active"){
+        if (snapshot.connectionState == ConnectionState.active) {
           //do something
-          if(snapshot.data.uid == null){
+          //(await FirebaseAuth.instance.currentUser()).uid;
+
+          if (snapshot.data?.uid == null) {
             //user not logged in->go to login screen
             //15:43(video)
-          }else{
+            return Login(auth: _auth,firebaseFirestore: _firebaseFirestore,);
+          } else {
             //user logged in->go to home screen
+            return Home(auth: _auth,firebaseFirestore: _firebaseFirestore,);
           }
-          return Text("textfield");
-        }else{
+        } else {
           return const Scaffold(
             body: Center(
               child: Text("Loading..."),
